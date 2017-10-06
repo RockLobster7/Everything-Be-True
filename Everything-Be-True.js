@@ -5,50 +5,46 @@ Check if the predicate (second argument) is truthy on all elements of a collecti
 */
 
 function truthCheck(collection, pre) {
-  var result = "";  
-  // Is everyone being true?
+  var result = collection.map((value) => {
 
-// hasOwnProperty === true
-// if int > 0
-// if its boolean 
-// if its not empty or null or NaN or undefined
+    if (value.hasOwnProperty(pre)) {
 
-    // result = collection[0].hasOwnProperty(pre);
-var x = false;
+      if (typeof value[pre] === "boolean") return true;
+      if ((typeof value[pre] === "number") && value[pre] > 0) return true;
+      if ((typeof value[pre] === "string") && value[pre] !== "") return true;
+      if (isNaN(value[pre])) return false;
 
-//implement filter or reduce or  map 
-    collection.forEach(function(e){
+      switch (value[pre]) {
+        case null:
+          return false;
+        case undefined:
+          return false;
+        default:
+          return false;
+      }
+    } else {
+      return false;
+    }
+    return;
+  });
 
-      if (e.hasOwnProperty(pre)) {
+  return result.find((anyValue) => anyValue === false) !== false;
+}
 
-        // x = (typeof e[pre] === "boolean");
-        
-      // x = (typeof e[pre] === "number") && e[pre] > 0;
+console.log(truthCheck([{"user": "Tinky-Winky", "sex": "male"}, {"user": "Dipsy", "sex": "male"}, {"user": "Laa-Laa", "sex": "female"}, {"user": "Po", "sex": "female"}], "sex")); // should return true.
 
-      x = e[pre] === "" || e[pre] === null || isNaN(e[pre]) || e[pre] === undefined;
-        
-      };
+  console.log(truthCheck([{"user": "Tinky-Winky", "sex": "male"}, {"user": "Dipsy"}, {"user": "Laa-Laa", "sex": "female"}, {"user": "Po", "sex": "female"}], "sex")); // should return false.
 
-    });
+  console.log(truthCheck([{"user": "Tinky-Winky", "sex": "male", "age": 0}, {"user": "Dipsy", "sex": "male", "age": 3}, {"user": "Laa-Laa", "sex": "female", "age": 5}, {"user": "Po", "sex": "female", "age": 4}], "age")); // should return false.
 
-    return x;
-  }
+  console.log(truthCheck([{"name": "Pete", "onBoat": true}, {"name": "Repeat", "onBoat": true}, {"name": "FastFoward", "onBoat": null}], "onBoat")); // should return false
 
+  console.log(truthCheck([{"name": "Pete", "onBoat": true}, {"name": "Repeat", "onBoat": true, "alias": "Repete"}, {"name": "FastFoward", "onBoat": true}], "onBoat")); // should return true
 
-  console.log(truthCheck([{"user": "Tinky-Winky", "sex": "male"}, {"user": "Dipsy", "sex": "male"}, {"user": "Laa-Laa", "sex": "female"}, {"user": "Po", "sex": undefined}], "sex")); // should return true.
+  console.log(truthCheck([{"single": "yes"}], "single")); // should return true
 
-  // console.log(truthCheck([{"user": "Tinky-Winky", "sex": "male"}, {"user": "Dipsy"}, {"user": "Laa-Laa", "sex": "female"}, {"user": "Po", "sex": "female"}], "sex")); // should return false.
+  console.log(truthCheck([{"single": ""}, {"single": "double"}], "single")); // should return false
 
-  // console.log(truthCheck([{"user": "Tinky-Winky", "sex": "male", "age": 0}, {"user": "Dipsy", "sex": "male", "age": 3}, {"user": "Laa-Laa", "sex": "female", "age": 5}, {"user": "Po", "sex": "female", "age": 4}], "age")); // should return false.
+  console.log(truthCheck([{"single": "double"}, {"single": undefined}], "single")); // should return false
 
-  // console.log(truthCheck([{"name": "Pete", "onBoat": true}, {"name": "Repeat", "onBoat": true}, {"name": "FastFoward", "onBoat": null}], "onBoat")); // should return false
-
-  // console.log(truthCheck([{"name": "Pete", "onBoat": true}, {"name": "Repeat", "onBoat": true, "alias": "Repete"}, {"name": "FastFoward", "onBoat": true}], "onBoat")); // should return true
-
-  // console.log(truthCheck([{"single": "yes"}], "single")); // should return true
-
-  // console.log(truthCheck([{"single": ""}, {"single": "double"}], "single")); // should return false
-
-  // console.log(truthCheck([{"single": "double"}, {"single": undefined}], "single")); // should return false
-
-  // console.log(truthCheck([{"single": "double"}, {"single": NaN}], "single")); // should return false
+  console.log(truthCheck([{"single": "double"}, {"single": NaN}], "single")); // should return false
