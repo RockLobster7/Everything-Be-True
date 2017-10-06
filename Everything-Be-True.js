@@ -11,10 +11,8 @@ function truthCheck(collection, pre) {
       if (typeof value[pre] === "boolean") return true;
       if ((typeof value[pre] === "string") && value[pre] !== "") return true;
       return false;
-    } else {
-      return false;
     }
-    return;
+    return false;
   });
 
   return result.find((anyValue) => anyValue === false) !== false;
