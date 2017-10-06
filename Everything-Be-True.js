@@ -6,11 +6,9 @@ Check if the predicate (second argument) is truthy on all elements of a collecti
 
 function truthCheck(collection, pre) {
   var result = collection.map((value) => {
-
     if (value.hasOwnProperty(pre)) {
       if (typeof value[pre] === "boolean") return true;
       if ((typeof value[pre] === "string") && value[pre] !== "") return true;
-      return false;
     }
     return false;
   });
